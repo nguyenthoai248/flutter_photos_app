@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'screens/photos_list_page.dart';
+import 'package:photos_app/injection_container.dart';
+import 'presentation/pages/photos_list_page.dart';
 
 void main() {
+  setupDI();
   runApp(MyApp());
 }
 

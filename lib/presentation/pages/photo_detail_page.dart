@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:photos_app/models/photo.dart';
 
 class PhotoDetailPage extends StatelessWidget {
-  final dynamic photo;
+  final Photo photo;
 
   PhotoDetailPage({required this.photo});
 
@@ -12,15 +13,12 @@ class PhotoDetailPage extends StatelessWidget {
       body: Column(
         children: [
           Image.network(
-            photo['url'].toString().replaceAll(
-              'via.placeholder.com',
-              'dummyimage.com',
-            ),
+            photo.url.replaceAll('via.placeholder.com', 'dummyimage.com'),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              photo['title'],
+              photo.title,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
