@@ -37,6 +37,9 @@ class _PhotosListPageState extends State<PhotosListPage> {
       final response = await Dio().get(
         'https://jsonplaceholder.typicode.com/photos',
         queryParameters: {'_page': page, '_limit': limit},
+        options: Options(
+          headers: {'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json'},
+        ),
       );
       final List<dynamic> fetchedPhotos = response.data;
       setState(() {
