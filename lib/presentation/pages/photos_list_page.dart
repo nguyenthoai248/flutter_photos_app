@@ -8,6 +8,8 @@ import 'package:photos_app/viewmodels/photo_view_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PhotosListPage extends StatefulWidget {
+  const PhotosListPage({super.key});
+
   @override
   State<PhotosListPage> createState() => _PhotosListPageState();
 }
@@ -60,10 +62,16 @@ class _PhotosListPageState extends State<PhotosListPage> {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PhotoDetailPage(photo: photo),
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        transitionDuration: Duration(milliseconds: 350),
+                        reverseTransitionDuration: Duration(milliseconds: 250),
+                        pageBuilder: (context, animation, secondaryAnimation) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: PhotoDetailPage(photo: photo),
+                          );
+                        },
                       ),
                     );
                   },
@@ -73,32 +81,36 @@ class _PhotosListPageState extends State<PhotosListPage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: CachedNetworkImage(
-                            imageUrl: photo.thumbnailUrl.replaceAll(
-                              'via.placeholder.com',
-                              'dummyimage.com',
-                            ),
-                            width: 56,
-                            height: 56,
-                            fit: BoxFit.cover,
-                            placeholder:
-                                (context, url) => Container(
-                                  width: 56,
-                                  height: 56,
-                                  alignment: Alignment.center,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
+                        Hero(
+                          tag: 'photo-${photo.id}',
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: CachedNetworkImage(
+                              imageUrl: photo.thumbnailUrl.replaceAll(
+                                'via.placeholder.com',
+                                'dummyimage.com',
+                              ),
+                              width: 56,
+                              height: 56,
+                              fit: BoxFit.cover,
+                              fadeInDuration: Duration(milliseconds: 250),
+                              placeholder:
+                                  (context, url) => Container(
+                                    width: 56,
+                                    height: 56,
+                                    alignment: Alignment.center,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
                                   ),
-                                ),
-                            errorWidget:
-                                (context, url, error) => Container(
-                                  width: 56,
-                                  height: 56,
-                                  alignment: Alignment.center,
-                                  child: Icon(Icons.error, size: 18),
-                                ),
+                              errorWidget:
+                                  (context, url, error) => Container(
+                                    width: 56,
+                                    height: 56,
+                                    alignment: Alignment.center,
+                                    child: Icon(Icons.error, size: 18),
+                                  ),
+                            ),
                           ),
                         ),
                         SizedBox(width: 12),

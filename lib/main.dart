@@ -4,10 +4,12 @@ import 'presentation/pages/photos_list_page.dart';
 
 void main() {
   setupDI();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 class PhotoDetailPage extends StatelessWidget {
   final Photo photo;
 
-  PhotoDetailPage({required this.photo});
+  const PhotoDetailPage({super.key, required this.photo});
 
   @override
   Widget build(BuildContext context) {
@@ -16,23 +16,29 @@ class PhotoDetailPage extends StatelessWidget {
         children: [
           AspectRatio(
             aspectRatio: 1,
-            child: CachedNetworkImage(
-              imageUrl: photo.url.replaceAll(
-                'via.placeholder.com',
-                'dummyimage.com',
-              ),
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                width: double.infinity,
-                height: double.infinity,
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(),
-              ),
-              errorWidget: (context, url, error) => Container(
-                width: double.infinity,
-                height: double.infinity,
-                alignment: Alignment.center,
-                child: Icon(Icons.error),
+            child: Hero(
+              tag: 'photo-${photo.id}',
+              child: CachedNetworkImage(
+                imageUrl: photo.url.replaceAll(
+                  'via.placeholder.com',
+                  'dummyimage.com',
+                ),
+                fit: BoxFit.cover,
+                fadeInDuration: Duration(milliseconds: 250),
+                placeholder:
+                    (context, url) => Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(),
+                    ),
+                errorWidget:
+                    (context, url, error) => Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      alignment: Alignment.center,
+                      child: Icon(Icons.error),
+                    ),
               ),
             ),
           ),
