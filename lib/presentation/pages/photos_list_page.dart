@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:photos_app/bloc/photo_bloc.dart';
 import 'package:photos_app/bloc/photo_state.dart';
 import 'package:photos_app/injection_container.dart';
@@ -74,14 +75,30 @@ class _PhotosListPageState extends State<PhotosListPage> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            photo.thumbnailUrl.replaceAll(
+                          child: CachedNetworkImage(
+                            imageUrl: photo.thumbnailUrl.replaceAll(
                               'via.placeholder.com',
                               'dummyimage.com',
                             ),
                             width: 56,
                             height: 56,
                             fit: BoxFit.cover,
+                            placeholder:
+                                (context, url) => Container(
+                                  width: 56,
+                                  height: 56,
+                                  alignment: Alignment.center,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                            errorWidget:
+                                (context, url, error) => Container(
+                                  width: 56,
+                                  height: 56,
+                                  alignment: Alignment.center,
+                                  child: Icon(Icons.error, size: 18),
+                                ),
                           ),
                         ),
                         SizedBox(width: 12),
